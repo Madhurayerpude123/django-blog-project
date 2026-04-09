@@ -1,180 +1,237 @@
-from django.shortcuts import render,redirect
-from django.contrib.auth.models import User,auth
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User, auth
 from django.contrib.auth import authenticate
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
-from .models import *
+from .models import Post, Comment, Contact
 
-from .models import Comment,Post
-# Create your views here.
+
+# 🏠 HOME
 def index(request):
-    return render(request,"index.html",{
-        'posts':Post.objects.filter(user_id=request.user.id).order_by("id").reverse(),
-        'top_posts':Post.objects.all().order_by("-likes"),
-        'recent_posts':Post.objects.all().order_by("-id"),
-        'user':request.user,
-        'media_url':settings.MEDIA_URL
+    return render(request, "index.html", {
+        'posts': Post.objects.filter(user_id=request.user.id).order_by("-id"),
+        'top_posts': Post.objects.all().order_by("-likes"),
+        'recent_posts': Post.objects.all().order_by("-id"),
+        'user': request.user,
+        'media_url': settings.MEDIA_URL
     })
 
 
+# 📝 SIGNUP
 def signup(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        email = request.POST['email']
-        password = request.POST['password']
-        password2 = request.POST['password2']
-        
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        password2 = request.POST.get('password2')
+
         if password == password2:
             if User.objects.filter(username=username).exists():
-                messages.info(request,"Username already Exists")
+                messages.info(request, "Username already exists")
                 return redirect('signup')
-            if User.objects.filter(email=email).exists():
-                messages.info(request,"Email already Exists")
-                return redirect('signup')
-            else:
-                User.objects.create_user(username=username,email=email,password=password).save()
-                return redirect('signin')
-        else:
-            messages.info(request,"Password should match")
-            return redirect('signup')
-            
-    return render(request,"signup.html")
 
+            if User.objects.filter(email=email).exists():
+                messages.info(request, "Email already exists")
+                return redirect('signup')
+
+            User.objects.create_user(username=username, email=email, password=password)
+            return redirect('signin')
+        else:
+            messages.info(request, "Passwords do not match")
+            return redirect('signup')
+
+    return render(request, "signup.html")
+
+
+# 🔐 SIGNIN
 def signin(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request,username=username,password=password)
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+
         if user is not None:
-            auth.login(request,user)
+            auth.login(request, user)
             return redirect("index")
         else:
-            messages.info(request,'Username or Password is incorrect')
+            messages.info(request, 'Invalid credentials')
             return redirect("signin")
-            
-    return render(request,"signin.html")
 
+    return render(request, "signin.html")
+
+
+# 🚪 LOGOUT
 def logout(request):
     auth.logout(request)
     return redirect('index')
 
+
+# 📚 BLOG PAGE
 def blog(request):
-    return render(request,"blog.html",{
-            'posts':Post.objects.filter(user_id=request.user.id).order_by("id").reverse(),
-            'top_posts':Post.objects.all().order_by("-likes"),
-            'recent_posts':Post.objects.all().order_by("-id"),
-            'user':request.user,
-            'media_url':settings.MEDIA_URL
-        })
-    
+    return render(request, "blog.html", {
+        'posts': Post.objects.all().order_by("-id"),
+        'top_posts': Post.objects.all().order_by("-likes"),
+        'recent_posts': Post.objects.all().order_by("-id"),
+        'user': request.user,
+        'media_url': settings.MEDIA_URL
+    })
+
+
+# ✍️ CREATE BLOG (🔥 FIXED)
+@login_required
 def create(request):
     if request.method == 'POST':
+        postname = request.POST.get('postname')
+        content = request.POST.get('content')
+        category = request.POST.get('category')
+        image = request.FILES.get('image')  # ✅ SAFE
+
+        if not postname or not content or not category:
+            messages.error(request, "All fields are required!")
+            return redirect('create')
+
         try:
-            postname = request.POST['postname']
-            content = request.POST['content']
-            category = request.POST['category']
-            image = request.FILES['image']
-            Post(postname=postname,content=content,category=category,image=image,user=request.user).save()
-        except:
-            print("Error")
-        return redirect('index')
-    else:
-        return render(request,"create.html")
-    
-def profile(request,id):
-    
-    return render(request,'profile.html',{
-        'user':User.objects.get(id=id),
-        'posts':Post.objects.all(),
-        'media_url':settings.MEDIA_URL,
+            Post.objects.create(
+                postname=postname,
+                content=content,
+                category=category,
+                image=image,
+                user=request.user
+            )
+            messages.success(request, "Blog created successfully!")
+            return redirect('profile', request.user.id)
+
+        except Exception as e:
+            print("ERROR:", e)
+            messages.error(request, "Error creating blog")
+            return redirect('create')
+
+    return render(request, "create.html")
+
+
+# 👤 PROFILE (🔥 FIXED)
+@login_required
+def profile(request, id):
+    return render(request, 'profile.html', {
+        'user': User.objects.get(id=id),
+        'posts': Post.objects.filter(user_id=id),  # ✅ FIXED
+        'media_url': settings.MEDIA_URL,
     })
-    
-    
-def profileedit(request,id):
+
+
+# ✏️ PROFILE EDIT
+@login_required
+def profileedit(request, id):
+    user = User.objects.get(id=id)
+
     if request.method == 'POST':
-        firstname = request.POST['firstname']
-        lastname = request.POST['lastname']
-        email = request.POST['email']
-    
-        user = User.objects.get(id=id)
-        user.first_name = firstname
-        user.email = email
-        user.last_name = lastname
+        user.first_name = request.POST.get('firstname')
+        user.last_name = request.POST.get('lastname')
+        user.email = request.POST.get('email')
         user.save()
-        return profile(request,id)
-    return render(request,"profileedit.html",{
-        'user':User.objects.get(id=id),
-    })
-    
-def increaselikes(request,id):
+
+        messages.success(request, "Profile updated!")
+        return redirect('profile', id)
+
+    return render(request, "profileedit.html", {'user': user})
+
+
+# ❤️ LIKE POST
+@login_required
+def increaselikes(request, id):
     if request.method == 'POST':
         post = Post.objects.get(id=id)
         post.likes += 1
-        post.save() 
+        post.save()
+
     return redirect("index")
 
 
-def post(request,id):
-    post = Post.objects.get(id=id)
-    
-    return render(request,"post-details.html",{
-        "user":request.user,
-        'post':Post.objects.get(id=id),
-        'recent_posts':Post.objects.all().order_by("-id"),
-        'media_url':settings.MEDIA_URL,
-        'comments':Comment.objects.filter(post_id = post.id),
-        'total_comments': len(Comment.objects.filter(post_id = post.id))
+# 📄 SINGLE POST
+def post(request, id):
+    post_obj = Post.objects.get(id=id)
+
+    comments = Comment.objects.filter(post_id=id)
+
+    return render(request, "post-details.html", {
+        "user": request.user,
+        'post': post_obj,
+        'recent_posts': Post.objects.all().order_by("-id"),
+        'media_url': settings.MEDIA_URL,
+        'comments': comments,
+        'total_comments': comments.count()
     })
-    
-def savecomment(request,id):
-    post = Post.objects.get(id=id)
+
+
+# 💬 SAVE COMMENT
+@login_required
+def savecomment(request, id):
     if request.method == 'POST':
-        content = request.POST['message']
-        Comment(post_id = post.id,user_id = request.user.id, content = content).save()
-        return redirect("index")
-    
-def deletecomment(request,id):
+        content = request.POST.get('message')
+
+        Comment.objects.create(
+            post_id=id,
+            user_id=request.user.id,
+            content=content
+        )
+
+    return redirect("post", id)
+
+
+# ❌ DELETE COMMENT
+@login_required
+def deletecomment(request, id):
     comment = Comment.objects.get(id=id)
     postid = comment.post.id
     comment.delete()
-    return post(request,postid)
-    
-def editpost(request,id):
+
+    return redirect("post", postid)
+
+
+# ✏️ EDIT POST
+@login_required
+def editpost(request, id):
     post = Post.objects.get(id=id)
+
     if request.method == 'POST':
-        try:
-            postname = request.POST['postname']
-            content = request.POST['content']
-            category = request.POST['category']
-            
-            post.postname = postname
-            post.content = content
-            post.category = category
-            post.save()
-        except:
-            print("Error")
-        return profile(request,request.user.id)
-    
-    return render(request,"postedit.html",{
-        'post':post
-    })
-    
-def deletepost(request,id):
+        post.postname = request.POST.get('postname')
+        post.content = request.POST.get('content')
+        post.category = request.POST.get('category')
+        post.save()
+
+        messages.success(request, "Post updated!")
+        return redirect('profile', request.user.id)
+
+    return render(request, "postedit.html", {'post': post})
+
+
+# 🗑️ DELETE POST
+@login_required
+def deletepost(request, id):
     Post.objects.get(id=id).delete()
-    return profile(request,request.user.id)
+    messages.success(request, "Post deleted!")
+    return redirect('profile', request.user.id)
 
 
+# 📩 CONTACT
 def contact_us(request):
-    context={}
+    context = {}
+
     if request.method == 'POST':
-        name=request.POST.get('name')    
-        email=request.POST.get('email')  
-        subject=request.POST.get('subject')  
-        message=request.POST.get('message')  
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
 
-        obj = Contact(name=name,email=email,subject=subject,message=message)
-        obj.save()
-        context['message']=f"Dear {name}, Thanks for your time!"
+        Contact.objects.create(
+            name=name,
+            email=email,
+            subject=subject,
+            message=message
+        )
 
-    return render(request,"contact.html")
+        context['message'] = f"Dear {name}, Thanks for your time!"
+
+    return render(request, "contact.html", context)
