@@ -9,55 +9,123 @@
 <!-- ***** Preloader End ***** -->
 
 <style>
+  /* ===== NAVBAR BASE ===== */
+  .main-navbar {
+    background-color: #0A192F !important;
+    padding: 12px 0;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.4);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
+  .navbar-brand h2 {
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 1.6rem;
+    margin: 0;
+    letter-spacing: -0.5px;
+  }
+
+  .navbar-brand h2 span {
+    color: #f26522;
+  }
+
+  /* ===== NAV LINKS ===== */
   .navbar-nav .nav-link {
     color: #f26522 !important;
     position: relative;
     transition: all 0.3s ease-in-out;
     font-weight: 600;
-    margin: 0 5px;
+    padding: 8px 14px !important;
+    border-radius: 6px;
   }
-  
-  /* Hover scale animation */
+
   .navbar-nav .nav-link:hover {
     color: #ff8c42 !important;
-    transform: translateY(-2px);
+    background: rgba(242,101,34,0.1);
+    transform: translateY(-1px);
   }
 
-  /* Underline animation */
-  .navbar-nav .nav-link::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: 2px;
-    left: 50%;
-    background-color: #ff8c42;
-    transition: all 0.3s ease-in-out;
-    transform: translateX(-50%);
+  /* Underline animation (desktop only) */
+  @media (min-width: 992px) {
+    .navbar-nav .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 4px;
+      left: 50%;
+      background-color: #f26522;
+      transition: all 0.3s ease-in-out;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+    .navbar-nav .nav-link:hover::after {
+      width: 60%;
+    }
   }
 
-  .navbar-nav .nav-link:hover::after {
-    width: 80%;
+  /* ===== HAMBURGER ICON ===== */
+  .navbar-toggler {
+    border: 2px solid #f26522 !important;
+    border-radius: 8px;
+    padding: 6px 10px;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .navbar-toggler:focus {
+    box-shadow: 0 0 0 3px rgba(242,101,34,0.3) !important;
+  }
+
+  /* Custom hamburger lines */
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23f26522' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+  }
+
+  /* ===== MOBILE MENU ===== */
+  @media (max-width: 991px) {
+    .navbar-collapse {
+      background-color: #0A192F;
+      border-top: 1px solid rgba(242,101,34,0.2);
+      margin-top: 10px;
+      border-radius: 0 0 12px 12px;
+      padding: 10px 0 16px;
+    }
+    
+    .navbar-collapse.show {
+      display: block !important;
+    }
+
+    .navbar-nav .nav-link {
+      margin: 4px 16px;
+      display: block;
+    }
+
+    .navbar-nav .nav-link:hover {
+      transform: none;
+    }
   }
 </style>
 
 <!-- Header -->
-<header class="">
-  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #0A192F;">
+<header>
+  <nav class="navbar navbar-expand-lg main-navbar">
     <div class="container">
       <a class="navbar-brand" href="{% url 'index' %}">
-        <h2 style="color: #ffffff;">Blog<span style="color: #f26522;">Spot</span></h2>
+        <h2>Blog<span>Spot</span></h2>
       </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+
+      <!-- Custom Toggle Button to ensure it works without external JS dependencies -->
+      <button class="navbar-toggler" type="button" onclick="toggleNavbar()" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+
       <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li>
-            <a class="nav-link" href="{% url 'index' %}">Home
-              <span class="sr-only">(current)</span>
-            </a>
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'index' %}">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'blog' %}">Blogs</a>
@@ -74,11 +142,12 @@
             <a class="nav-link" href="{% url 'profile' user.id %}">Profile</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" style="color: #f26522 !important; font-weight: bold;" href="{% url 'logout' %}">Logout</a>
+            <a class="nav-link" style="color: #ffffff !important; background: #f26522; border-radius: 8px; margin-left: 6px;"
+               href="{% url 'logout' %}">Logout</a>
           </li>
           {% else %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'signin' %}"><i class="fa fa-user"></i></a>
+            <a class="nav-link" href="{% url 'signin' %}"><i class="fa fa-user"></i> Login</a>
           </li>
           {% endif %}
         </ul>
@@ -87,7 +156,17 @@
   </nav>
 </header>
 
-<!-- Page Content -->
+<script>
+  function toggleNavbar() {
+    var nav = document.getElementById("navbarResponsive");
+    if (nav.classList.contains("show")) {
+      nav.classList.remove("show");
+    } else {
+      nav.classList.add("show");
+    }
+  }
+</script>
+
 <!-- Banner Starts Here -->
 <div class="main-banner header-text">
   <div class="container-fluid">
