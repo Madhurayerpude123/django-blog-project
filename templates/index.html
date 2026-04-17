@@ -19,6 +19,9 @@
   <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  
+  <!-- AOS Animation CSS -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 
 
@@ -31,88 +34,96 @@
 
 </head>
 
-<body>
+<body style="background-color: #061121; color: #e2e8f0;">
   {%include 'header.html'%}
 
 
-  <div class="container mt-5 carousel">
-    <div id="carouselExampleCaptions" class="carousel slide">
-      <div class="carousel-indicators">
-        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
-          aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
-          aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
-          aria-label="Slide 3"></button>
-        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3"
-          aria-label="Slide 4"></button>
-        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4"
-          aria-label="Slide 5"></button>
-      </div>
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img src="{% static 'assets/images/nature.jpg' %}" alt="image1">
-          <div class="carousel-caption ">
-            <h1>NATURE</h1>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <img src="{% static 'assets/images/travel.jpg' %}" alt="image2">
-          <div class="carousel-caption d-none d-md-block">
-            <h1>TRAVEL</h1>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <img src="{% static 'assets/images/education.jpg' %}" alt="image3">
-          <div class="carousel-caption d-none d-md-block">
-            <h1>EDUCATION</h1>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <img src="{% static 'assets/images/tech.jpg' %}" alt="image4">
-          <div class="carousel-caption d-none d-md-block">
-            <h1>TECHNOLOGY</h1>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <img src="{% static 'assets/images/ai.jpg' %}" alt="image5">
-          <div class="carousel-caption d-none d-md-block">
-            <h1>ARTIFICIAL INTELLIGENCE</h1>
-          </div>
-        </div>
-      </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
-        data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
-        data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    </div>
-  </div>
+<div class="container mt-5 carousel">
+  <div id="carouselExampleCaptions" 
+       class="carousel slide carousel-fade" 
+       data-bs-ride="carousel"
+       data-bs-interval="2000"
+       data-bs-pause="false"
+       data-bs-wrap="true">
 
+    <!-- Indicators -->
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"></button>
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"></button>
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"></button>
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3"></button>
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4"></button>
+    </div>
+
+    <div class="carousel-inner">
+
+      <div class="carousel-item active">
+        <img src="{% static 'assets/images/nature.jpg' %}" class="d-block w-100 carousel-img">
+        <div class="carousel-caption custom-caption">
+          <h1 class="animate-text">NATURE</h1>
+        </div>
+      </div>
+
+      <div class="carousel-item">
+        <img src="{% static 'assets/images/travel.jpg' %}" class="d-block w-100 carousel-img">
+        <div class="carousel-caption custom-caption">
+          <h1 class="animate-text">TRAVEL</h1>
+        </div>
+      </div>
+
+      <div class="carousel-item">
+        <img src="{% static 'assets/images/education.jpg' %}" class="d-block w-100 carousel-img">
+        <div class="carousel-caption custom-caption">
+          <h1 class="animate-text">EDUCATION</h1>
+        </div>
+      </div>
+
+      <div class="carousel-item">
+        <img src="{% static 'assets/images/tech.jpg' %}" class="d-block w-100 carousel-img">
+        <div class="carousel-caption custom-caption">
+          <h1 class="animate-text">TECHNOLOGY</h1>
+        </div>
+      </div>
+
+      <div class="carousel-item">
+        <img src="{% static 'assets/images/ai.jpg' %}" class="d-block w-100 carousel-img">
+        <div class="carousel-caption custom-caption">
+          <h1 class="animate-text">ARTIFICIAL INTELLIGENCE</h1>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Controls -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon custom-arrow"></span>
+    </button>
+
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+      <span class="carousel-control-next-icon custom-arrow"></span>
+    </button>
+
+  </div>
+</div>
   {% if user.is_authenticated %}
   <div class="container mt-5">
-    <h5>MY POSTS</h5>
+    <h5 style="color: #ffffff; font-weight: bold; font-size: 28px;">MY POSTS</h5>
     <hr>
     <div class="row row-cols-lg-3 row-cols-md-2 row-cols-1" class="blog-posts">
 
       {% for post in posts|slice:"0:3" %}
-      <div class="col col-lg-4 col-md-6 col-12 mb-2 blog-post">
+      <div class="col col-lg-4 col-md-6 col-12 mb-2 blog-post" data-aos="fade-up" data-aos-duration="1000">
         <img src="{{media_url}}{{post.image}}" alt="" width="100%" height="300px">
-        <div class=" px-3 py-5 shadow">
-        <a href="{% url 'post' post.id %}" class="text-decoration-none text-dark">
-          <span class="text-white bg-info text-center rounded-3 mt-5" style="padding: 8px;">{{post.category}}</span>
+        <div class=" px-3 py-5 shadow" style="background-color: #0A192F; border-radius: 10px;">
+        <a href="{% url 'post' post.id %}" class="text-decoration-none" style="color: #ffffff;">
+          <span class="text-white text-center rounded-3 mt-5" style="padding: 8px; background-color: #f26522;">{{post.category}}</span>
           <h5 class="mt-4">{{post.postname}}</h5>
         </a>
         <form method="post" action="{% url 'increaselikes' post.id %}">
           {% csrf_token %}
           <button class="float-right small" type="submit"
             style="border: none; background: transparent; font-size: 25px;"><i
-              class="fa fa-heart text-danger"></i></button>
+              class="fa fa-heart" style="color: #f26522;"></i></button>
         </form>
 
         <p>{{post.content|slice:"0:100"}}...</p>
@@ -121,14 +132,14 @@
     </div>
     {% endfor %}
   </div>
-  <a class="text-danger text-decoration-none" href="{% url 'profile' user.id %}" style="cursor:pointer;">View All
+  <a class="text-decoration-none" href="{% url 'profile' user.id %}" style="cursor:pointer; color: #f26522; font-weight: bold;">View All
     >></a>
   </div>
   {% endif %}
 
   <section class="blog-posts">
     <div class="container">
-      <h3 class="mb-2" style="color: rgb(227, 73, 73); font-size: 30px; font-weight: bold;">RECENT POSTS</h3>
+      <h3 class="mb-2" style="color: #ffffff; font-size: 30px; font-weight: bold;">RECENT POSTS</h3>
       <hr>
       <div class=" row">
         <div class="col-lg-8">
@@ -136,19 +147,19 @@
             <div class="row">
 
               {% for post in top_posts|slice:"0:7" %}
-              <div class="col col-lg-6 col-12 pb-2 blog-post ">
+              <div class="col col-lg-6 col-12 pb-2 blog-post" data-aos="fade-up" data-aos-duration="1000">
                 <img src="{{media_url}}{{post.image}}" alt="" class="img-fluid" width="100%">
-                <div class="px-3 py-5 shadow">
-                  <a href="{% url 'post' post.id %}" class="text-decoration-none text-dark mb-3">
-                    <span class="text-white bg-info text-center rounded-3 mt-5"
-                      style="padding: 8px;">{{post.category}}</span>
+                <div class="px-3 py-5 shadow" style="background-color: #0A192F; border-radius: 10px;">
+                  <a href="{% url 'post' post.id %}" class="text-decoration-none mb-3" style="color: #ffffff;">
+                    <span class="text-white text-center rounded-3 mt-5"
+                      style="padding: 8px; background-color: #f26522;">{{post.category}}</span>
                     <h5 class="mt-4">{{post.postname}}</h5>
                   </a>
                   <form method="post" action="{% url 'increaselikes' post.id %}">
                     {% csrf_token %}
                     <button class="float-right small" type="submit"
                       style="border: none; background: transparent; font-size: 25px;"><i
-                        class="fa fa-heart text-danger"></i></button>
+                        class="fa fa-heart" style="color: #f26522;"></i></button>
                   </form>
 
                   <p class="mt-2">{{post.content|slice:"0:100"}}...</p>
@@ -159,13 +170,13 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-4" data-aos="fade-left" data-aos-duration="1200">
           <div class="sidebar">
             <div class="row">
               <div class="col-lg-12">
                 <div class="sidebar-item recent-posts">
                   <div class="sidebar-heading">
-                    <h2 style="color: rgb(240, 124, 78); font-size: 30px; font-weight: bold;">Popular Posts</h2>
+                    <h2 style="color: #ffffff; font-size: 30px; font-weight: bold;">Popular Posts</h2>
                   </div>
                   <div class="content">
                     <ul>
@@ -174,7 +185,7 @@
                       <li>
                         <img src="{{media_url}}{{post.image}}" class="img-fluid" alt="" width="100%">
                         <a href="post-details.html">
-                          <a href="{% url 'post' post.id %}" class="text-decoration-none text-dark">
+                          <a href="{% url 'post' post.id %}" class="text-decoration-none" style="color: #ffffff;">
                             <h5>{{post.postname}}</h5>
                           </a>
                           <span>{{post.time}}</span>
@@ -214,6 +225,14 @@
   <script src="{% static 'assets/js/isotope.js' %}"></script>
   <script src="{% static 'assets/js/accordions.js' %}"></script>
 
+
+  <!-- AOS JS -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      once: true, // whether animation should happen only once - while scrolling down
+    });
+  </script>
 
   <script language="text/Javascript">
     cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
