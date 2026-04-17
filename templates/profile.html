@@ -3,315 +3,541 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="TemplateMo">
-    <link
-        href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap"
-        rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <title>Profile</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Profile | BlogSpot</title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'assets/css/fontawesome.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/css/templatemo-stand-blog.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/css/owl.css' %}">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-    <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="{% static 'assets/css/fontawesome.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/templatemo-stand-blog.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/owl.css' %}">
+  <style>
+    * { font-family: 'Inter', sans-serif; box-sizing: border-box; }
 
+    body {
+      background-color: #061121;
+      color: #e2e8f0;
+      min-height: 100vh;
+    }
 
-    <style>
-        body {
-            background-color: #f9f9fa;
-            width: 100vw;
-            height: 100vh;
-        }
+    /* ===== HERO PROFILE BANNER ===== */
+    .profile-hero {
+      background: linear-gradient(135deg, #0A192F 0%, #0d2137 60%, #112240 100%);
+      border-bottom: 2px solid #f26522;
+      padding: 100px 0 50px;
+      position: relative;
+      overflow: hidden;
+    }
 
-        .padding {
-            padding: 1rem;
-        }
+    .profile-hero::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(242,101,34,0.12) 0%, transparent 70%);
+      border-radius: 50%;
+    }
 
+    .profile-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; left: -60px;
+      width: 250px; height: 250px;
+      background: radial-gradient(circle, rgba(242,101,34,0.08) 0%, transparent 70%);
+      border-radius: 50%;
+    }
 
-        .user-card-full {
+    /* ===== PROFILE PICTURE ===== */
+    .profile-avatar-wrapper {
+      position: relative;
+      display: inline-block;
+    }
 
-            overflow: hidden;
-        }
+    .profile-avatar {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      border: 4px solid #f26522;
+      object-fit: cover;
+      box-shadow: 0 0 0 6px rgba(242,101,34,0.2), 0 8px 30px rgba(0,0,0,0.4);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
 
-        .card {
-            border-radius: 5px;
-            -webkit-box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
-            box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
-            border: none;
-            margin-bottom: 30px;
-            padding: 50px;
-        }
+    .profile-avatar:hover {
+      transform: scale(1.06);
+      box-shadow: 0 0 0 8px rgba(242,101,34,0.3), 0 12px 40px rgba(0,0,0,0.5);
+    }
 
-        .m-r-0 {
-            margin-right: 0px;
-        }
+    .online-badge {
+      position: absolute;
+      bottom: 8px; right: 8px;
+      width: 18px; height: 18px;
+      background: #22c55e;
+      border-radius: 50%;
+      border: 3px solid #061121;
+    }
 
-        .m-l-0 {
-            margin-left: 0px;
-        }
+    /* ===== USERNAME & META ===== */
+    .profile-username {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+      margin: 0;
+    }
 
-        .user-card-full .user-profile {
-            border-radius: 5px 0 0 5px;
-        }
+    .profile-username span {
+      color: #f26522;
+    }
 
-        .bg-c-lite-green {
-            background: linear-gradient(to top, #4b35d9, #eb31a7);
-            box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
-        }
+    .profile-role {
+      color: #94a3b8;
+      font-size: 0.9rem;
+      margin-top: 4px;
+      font-weight: 400;
+    }
 
-        .user-profile {
-            padding: 20px 0;
-        }
+    /* ===== STAT PILLS ===== */
+    .stat-pill {
+      background: rgba(242,101,34,0.12);
+      border: 1px solid rgba(242,101,34,0.3);
+      border-radius: 50px;
+      padding: 6px 18px;
+      color: #f26522;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: all 0.3s ease;
+    }
 
-        .card-block {
-            padding: 1.25rem;
-        }
+    .stat-pill:hover {
+      background: rgba(242,101,34,0.25);
+      transform: translateY(-2px);
+    }
 
-        .m-b-25 {
-            margin-bottom: 25px;
-        }
+    .stat-pill i { margin-right: 6px; }
 
-        .img-radius {
-            border-radius: 5px;
-        }
+    /* ===== EDIT PROFILE BUTTON ===== */
+    .btn-edit-profile {
+      background: linear-gradient(135deg, #f26522, #ff8c42);
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      padding: 10px 28px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(242,101,34,0.35);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
 
+    .btn-edit-profile:hover {
+      background: linear-gradient(135deg, #ff8c42, #f26522);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(242,101,34,0.5);
+    }
 
+    /* ===== INFO CARDS ===== */
+    .info-card {
+      background: #0A192F;
+      border: 1px solid rgba(242,101,34,0.15);
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 24px;
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
 
-        h6 {
-            font-size: 14px;
-        }
+    .info-card:hover {
+      border-color: rgba(242,101,34,0.4);
+      transform: translateY(-3px);
+    }
 
-        .card .card-block p {
-            line-height: 25px;
-        }
+    .info-card-title {
+      color: #f26522;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
+    .info-card-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(242,101,34,0.2);
+    }
 
-        @media only screen and (min-width: 2400px) {
-            p {
-                font-size: 14px;
-            }
-        }
+    .info-row {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 16px;
+    }
 
-        .card-block {
-            padding: 1.25rem;
-        }
+    .info-label {
+      color: #64748b;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 4px;
+    }
 
-        .b-b-default {
-            border-bottom: 1px solid #e0e0e0;
-        }
+    .info-value {
+      color: #e2e8f0;
+      font-size: 1rem;
+      font-weight: 500;
+    }
 
-        .m-b-20 {
-            margin-bottom: 20px;
-        }
+    .info-value i {
+      color: #f26522;
+      margin-right: 8px;
+      width: 16px;
+    }
 
-        .p-b-5 {
-            padding-bottom: 5px !important;
-        }
+    /* ===== SECTION DIVIDER ===== */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
 
-        .card .card-block p {
-            line-height: 25px;
-        }
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-        .m-b-10 {
-            margin-bottom: 10px;
-        }
+    .section-title i { color: #f26522; }
 
-        .text-muted {
-            color: #919aa3 !important;
-        }
+    .section-divider {
+      height: 2px;
+      background: linear-gradient(to right, #f26522, transparent);
+      margin-bottom: 28px;
+      border-radius: 2px;
+    }
 
-        .b-b-default {
-            border-bottom: 1px solid #e0e0e0;
-        }
+    /* ===== POST CARDS ===== */
+    .post-card {
+      background: #0A192F;
+      border: 1px solid rgba(242,101,34,0.12);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
 
-        .f-w-600 {
-            font-weight: 600;
-        }
+    .post-card:hover {
+      border-color: rgba(242,101,34,0.5);
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+    }
 
-        .m-b-20 {
-            margin-bottom: 20px;
-        }
+    .post-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
 
-        .m-t-40 {
-            margin-top: 20px;
-        }
+    .post-card:hover img {
+      transform: scale(1.05);
+    }
 
-        .p-b-5 {
-            padding-bottom: 5px !important;
-        }
+    .post-card-body {
+      padding: 18px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
 
-        .m-b-10 {
-            margin-bottom: 10px;
-        }
+    .post-category {
+      background: rgba(242,101,34,0.2);
+      color: #f26522;
+      border: 1px solid rgba(242,101,34,0.4);
+      border-radius: 50px;
+      padding: 3px 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
 
-        .m-t-40 {
-            margin-top: 20px;
-        }
+    .post-title {
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
 
-        .user-card-full .social-link li {
-            display: inline-block;
-        }
+    .post-excerpt {
+      color: #64748b;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      flex: 1;
+    }
 
-        .user-card-full .social-link li a {
-            font-size: 20px;
-            margin: 0 10px 0 0;
-            -webkit-transition: all 0.3s ease-in-out;
-            transition: all 0.3s ease-in-out;
-        }
+    .post-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
 
-        .card-shadow {
-            /* padding:.5rem; */
-            border-radius: 10px;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        }
+    .post-time {
+      color: #475569;
+      font-size: 0.78rem;
+    }
 
-        @media screen and (max-width:600px) {
-            .padding {
-                padding: 0;
-            }
-        }
-    </style>
+    .post-likes {
+      color: #f26522;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .post-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .btn-post-edit {
+      flex: 1;
+      background: rgba(242,101,34,0.1);
+      color: #f26522;
+      border: 1px solid rgba(242,101,34,0.35);
+      border-radius: 8px;
+      padding: 7px 0;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-align: center;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn-post-edit:hover {
+      background: rgba(242,101,34,0.25);
+      color: #f26522;
+      transform: translateY(-1px);
+    }
+
+    .btn-post-delete {
+      flex: 1;
+      background: rgba(239,68,68,0.1);
+      color: #ef4444;
+      border: 1px solid rgba(239,68,68,0.35);
+      border-radius: 8px;
+      padding: 7px 0;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-align: center;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn-post-delete:hover {
+      background: rgba(239,68,68,0.25);
+      color: #ef4444;
+      transform: translateY(-1px);
+    }
+
+    /* ===== EMPTY STATE ===== */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #475569;
+    }
+
+    .empty-state i {
+      font-size: 3rem;
+      color: rgba(242,101,34,0.3);
+      margin-bottom: 16px;
+    }
+
+    .empty-state p {
+      font-size: 1rem;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .profile-username { font-size: 1.5rem; }
+      .profile-hero { padding: 40px 0 30px; }
+    }
+  </style>
 </head>
 
-<body style="background-color: #061121; color: #e2e8f0;">
+<body>
 
-    <!-- Header -->
-    <header class="">
-        <nav class="navbar navbar-expand-lg bg-white">
-            <div class="container">
-                <a class="navbar-brand" href="index.html">
-                    <h2>BLOG<span style="color: orangered;">SPOT</span></h2>
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ml-auto">
-                        <li>
-                            <a class="nav-link" href="{% url 'index' %}">Home
-                                <span class="sr-only">(current)</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'blog' %}">Blogs</a>
-                        </li>
+  {% include 'header.html' %}
 
-                        {% if user.is_authenticated %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'create' %}">Create</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'profile' user.id %}">Profile</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-                        </li>
-                        {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'signin' %}">Login</a>
-                        </li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
+  <!-- ===== PROFILE HERO BANNER ===== -->
+  <section class="profile-hero">
+    <div class="container">
+      <div class="row align-items-center g-4">
 
-
-    <div class="mt-3">
-        <div class="page-content page-container p-lg-5 p-0" id="page-content">
-            <div class="padding">
-                <div class="row d-flex justify-content-center">
-                    <div class="col-xl-12 col-md-12" id="card">
-                        <div class="card user-card-full">
-                            <div class="row m-l-0 m-r-0">
-                                <div class="col-sm-4 bg-c-lite-green user-profile">
-                                    <div class="card-block text-center text-white">
-                                        <div class="m-b-25">
-
-                                            <img src="{% static 'assets/images/user.png' %}" class="img-radius"
-                                                alt="User-Profile-Image" style="border-radius: 50%;">
-
-                                        </div>
-                                        <h6 class="f-w-800 h3" style="text-transform: capitalize;">{{user.username}}
-                                        </h6>
-                                        <i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
-                                    </div>
-                                </div>
-                                <div class="col-sm-8">
-                                    <div class="card-block">
-                                        <h6 class="m-b-20 p-b-5 b-b-default f-w-600"
-                                            style="font-size: 30px; padding: 20px;  color: #7461f3;">Profile <a
-                                                href="{% url 'profileedit' user.id %}"
-                                                class="float-right text-decoration-none text-success"
-                                                style="font-size: 15px;">Edit Profile</a>
-                                        </h6>
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <p class="m-b-10 f-w-600 text-dark">Firstname :-
-                                                    <span class="text-muted f-w-400">{{user.first_name}}</span>
-                                                </p>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <p class="m-b-10 f-w-600 text-dark">Lastname :-
-                                                    <span class="text-muted f-w-400">{{user.last_name}}</span>
-                                                </p>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <p class="m-b-10 f-w-600 text-dark">Email :-
-                                                    <span class="text-muted f-w-400">{{user.email}}</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <p class="small fw-bold pt-3 text-dark">My Posts</p>
-                                        <hr>
-
-                                        <div class="row row-cols-lg-2 row-cols-1">
-                                            {% for post in posts%}
-                                            {% if post.user_id == user.id %}
-                                            <div class="col col-lg-6 col-12 mb-2">
-                                                <img src="{{media_url}}{{post.image}}" alt="" height="300px"
-                                                    width="100%">
-                                                <div class="px-3 py-2 shadow">
-                                                    <h5>{{post.postname}}</h5>
-                                                    <a href="{% url 'deletepost' post.id %}"><button
-                                                            class="ms-2 float-right small" type="submit"
-                                                            style="border:2px solid rgb(252, 63, 42); border-radius: 5px; background-color: rgb(246, 148, 141);">Delete</button></a>
-                                                    <a href="{% url 'editpost' post.id %}"><button
-                                                            class="float-right small" type="submit"
-                                                            style="border:2px solid rgb(64, 108, 251); border-radius: 5px; background-color: rgb(141, 169, 246);">Edit</button></a>
-                                                    <span
-                                                        class="text-white bg-success rounded-3 px-2 rounded-2">{{post.category}}</span>
-                                                    <p>{{post.content|slice:"0:20"}}...</p>
-                                                    <p class="small text-primary">{{post.time}}<span
-                                                            class="text-danger float-right">Likes :
-                                                            {{post.likes}}</span></p>
-                                                </div>
-                                            </div>
-                                            {% endif %}
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <!-- Avatar -->
+        <div class="col-auto" data-aos="fade-right" data-aos-duration="800">
+          <div class="profile-avatar-wrapper">
+            <img src="{% static 'assets/images/user.png' %}" alt="Profile Picture" class="profile-avatar">
+            <div class="online-badge"></div>
+          </div>
         </div>
-    </div>
-    {% include 'footer.html' %}
-</body>
 
+        <!-- Name & Info -->
+        <div class="col" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+          <h1 class="profile-username">
+            {{ user.first_name|default:user.username }}
+            {% if user.last_name %}<span>{{ user.last_name }}</span>{% endif %}
+          </h1>
+          <p class="profile-role"><i class="fa fa-at" style="color:#f26522;"></i> {{ user.username }}</p>
+          <p class="profile-role"><i class="fa fa-envelope" style="color:#f26522;"></i> {{ user.email }}</p>
+
+          <div class="d-flex flex-wrap gap-2 mt-3">
+            <span class="stat-pill"><i class="fa fa-file-alt"></i> {{ posts|length }} Posts</span>
+            <span class="stat-pill"><i class="fa fa-calendar-alt"></i> Member since {{ user.date_joined|date:"M Y" }}</span>
+          </div>
+        </div>
+
+        <!-- Edit Button -->
+        <div class="col-auto" data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
+          <a href="{% url 'profileedit' user.id %}" class="btn-edit-profile">
+            <i class="fa fa-pen"></i> Edit Profile
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="container py-5">
+    <div class="row g-4">
+
+      <!-- LEFT: Profile Info -->
+      <div class="col-lg-4" data-aos="fade-right" data-aos-duration="800">
+
+        <!-- Personal Details -->
+        <div class="info-card">
+          <div class="info-card-title"><i class="fa fa-user-circle"></i> Personal Info</div>
+          <div class="info-row">
+            <span class="info-label">First Name</span>
+            <span class="info-value"><i class="fa fa-id-card"></i>{{ user.first_name|default:"—" }}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Last Name</span>
+            <span class="info-value"><i class="fa fa-id-card"></i>{{ user.last_name|default:"—" }}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Username</span>
+            <span class="info-value"><i class="fa fa-at"></i>{{ user.username }}</span>
+          </div>
+          <div class="info-row" style="margin-bottom:0;">
+            <span class="info-label">Email</span>
+            <span class="info-value"><i class="fa fa-envelope"></i>{{ user.email }}</span>
+          </div>
+        </div>
+
+        <!-- Account Stats -->
+        <div class="info-card">
+          <div class="info-card-title"><i class="fa fa-chart-bar"></i> Account Stats</div>
+          <div class="info-row">
+            <span class="info-label">Total Posts</span>
+            <span class="info-value"><i class="fa fa-file-alt"></i>{{ posts|length }}</span>
+          </div>
+          <div class="info-row" style="margin-bottom:0;">
+            <span class="info-label">Member Since</span>
+            <span class="info-value"><i class="fa fa-calendar"></i>{{ user.date_joined|date:"d M Y" }}</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: My Posts -->
+      <div class="col-lg-8" data-aos="fade-left" data-aos-duration="800" data-aos-delay="100">
+
+        <div class="section-header">
+          <div class="section-title">
+            <i class="fa fa-newspaper"></i> My Posts
+          </div>
+        </div>
+        <div class="section-divider"></div>
+
+
+        <div class="row g-3">
+          {% for post in posts %}
+            {% if post.user_id == user.id %}
+            <div class="col-md-6" data-aos="fade-up" data-aos-duration="600">
+              <div class="post-card">
+                <div style="overflow:hidden;">
+                  <img src="{{ media_url }}{{ post.image }}" alt="{{ post.postname }}">
+                </div>
+                <div class="post-card-body">
+                  <span class="post-category">{{ post.category }}</span>
+                  <h5 class="post-title">{{ post.postname }}</h5>
+                  <p class="post-excerpt">{{ post.content|slice:"0:90" }}...</p>
+                  <div class="post-meta">
+                    <span class="post-time"><i class="fa fa-clock" style="color:#f26522;margin-right:4px;"></i>{{ post.time }}</span>
+                    <span class="post-likes"><i class="fa fa-heart"></i> {{ post.likes }}</span>
+                  </div>
+                  <div class="post-actions">
+                    <a href="{% url 'editpost' post.id %}" class="btn-post-edit"><i class="fa fa-pen"></i> Edit</a>
+                    <a href="{% url 'deletepost' post.id %}" class="btn-post-delete"><i class="fa fa-trash"></i> Delete</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        {% if not posts %}
+          <div class="col-12">
+            <div class="empty-state">
+              <i class="fa fa-pen-nib d-block"></i>
+              <p>You haven't created any posts yet.</p>
+              <a href="{% url 'create' %}" class="btn-edit-profile mt-2"><i class="fa fa-plus"></i> Create Your First Post</a>
+            </div>
+          </div>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+
+  {% include 'footer.html' %}
+
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'assets/js/custom.js' %}"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({ once: true });
+    // Failsafe: always hide preloader after 1 second
+    setTimeout(function() {
+      var preloader = document.getElementById('preloader');
+      if (preloader) { preloader.style.display = 'none'; }
+    }, 800);
+  </script>
+
+</body>
 </html>
