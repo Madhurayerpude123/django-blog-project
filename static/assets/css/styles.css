@@ -7,3 +7,153 @@
 .blog-post img {
     height: 300px;
 }
+
+/* ================= CAROUSEL ARROWS ================= */
+.carousel-control-prev,
+.carousel-control-next {
+  width: 5%;
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+.carousel:hover .carousel-control-prev,
+.carousel:hover .carousel-control-next {
+  opacity: 1;
+}
+
+.custom-arrow {
+  filter: invert(1);
+  transform: scale(1.2);
+  transition: all 0.3s ease;
+}
+
+.carousel-control-prev:hover .custom-arrow,
+.carousel-control-next:hover .custom-arrow {
+  transform: scale(1.4);
+}
+
+/* ================= BLOG CARDS ================= */
+.blog-post {
+  overflow: hidden;
+  border-radius: 12px;
+  transition: all 0.4s ease;
+  position: relative;
+}
+
+/* Card hover lift */
+.blog-post:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+/* Image zoom effect */
+.blog-post img {
+  transition: transform 0.6s ease;
+}
+
+.blog-post:hover img {
+  transform: scale(1.1);
+}
+
+/* ================= UNDERLINE ANIMATION ================= */
+.blog-post h5 {
+  position: relative;
+  display: inline-block;
+}
+
+.blog-post h5::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 0%;
+  height: 3px;
+  background: #f26522;
+  transition: width 0.4s ease;
+}
+
+.blog-post:hover h5::after {
+  width: 100%;
+}
+
+/* ================= CATEGORY TAG ANIMATION ================= */
+.bg-info {
+  transition: all 0.3s ease;
+}
+
+.blog-post:hover .bg-info {
+  transform: translateY(-3px) scale(1.05);
+  background-color: #ff7a3d !important;
+}
+
+/* ================= HEART BUTTON ================= */
+button i {
+  transition: all 0.3s ease;
+}
+
+button:hover i {
+  transform: scale(1.3);
+  color: #ff3b3b !important;
+}
+
+/* ================= FADE IN ANIMATION ================= */
+.blog-post {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUp 0.8s ease forwards;
+}
+
+.blog-post:nth-child(1) { animation-delay: 0.1s; }
+.blog-post:nth-child(2) { animation-delay: 0.2s; }
+.blog-post:nth-child(3) { animation-delay: 0.3s; }
+.blog-post:nth-child(4) { animation-delay: 0.4s; }
+.blog-post:nth-child(5) { animation-delay: 0.5s; }
+.blog-post:nth-child(6) { animation-delay: 0.6s; }
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================= SIDEBAR POSTS ================= */
+.sidebar .content li {
+  transition: all 0.3s ease;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.sidebar .content li:hover {
+  background: rgba(0,0,0,0.05);
+  transform: translateX(8px);
+}
+
+/* Sidebar image slight move */
+.sidebar img {
+  transition: all 0.4s ease;
+}
+
+.sidebar li:hover img {
+  transform: scale(1.08);
+}
+
+/* ================= SECTION TITLE LINE ================= */
+h3 {
+  position: relative;
+}
+
+h3::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 0;
+  height: 4px;
+  background: #f26522;
+  transition: width 0.5s ease;
+}
+
+h3:hover::after {
+  width: 60px;
+}
