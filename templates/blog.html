@@ -150,7 +150,7 @@
           <div class="all-blog-posts">
             <div class="row">
 
-              {% for post in recent_posts %}
+              {% for post in recent_posts|slice:":-2" %}
               <div class="col-lg-12">
                 <div class="blog-post">
                   <div class="blog-thumb">

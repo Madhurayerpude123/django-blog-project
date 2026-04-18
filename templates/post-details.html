@@ -115,19 +115,41 @@ https://templatemo.com/tm-551-stand-blog
             <div class="sidebar">
               <div class="row">
                 <div class="col-lg-12">
+                  <!-- Related Posts Section -->
                   <div class="sidebar-item recent-posts">
                     <div class="sidebar-heading">
-                      <h2 class="text-white">Recent Posts</h2>
+                      <h2 class="text-white">Related Posts</h2>
                     </div>
                     <div class="content">
                       <ul>
-                        {% for post in recent_posts|slice:"0:4" %}
+                        {% for r_post in related_posts %}
                         <li>
-                          <img src="{{media_url}}{{post.image}}" class="img-fluid" alt="">
-                          <a href="post-details.html">
-                            <a href="{% url 'post' post.id %}" class="text-decoration-none text-white"><h5>{{post.postname}}</h5></a>
-                          <span>{{post.time}}</span>
-                        </a></li>
+                          <img src="{{media_url}}{{r_post.image}}" class="img-fluid" alt="">
+                          <a href="{% url 'post' r_post.id %}" class="text-decoration-none text-white">
+                            <h5>{{r_post.postname}}</h5>
+                            <span>{{r_post.time}}</span>
+                          </a>
+                        </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <!-- Popular Posts Section -->
+                  <div class="sidebar-item recent-posts mt-5">
+                    <div class="sidebar-heading">
+                      <h2 class="text-white">More to Read</h2>
+                    </div>
+                    <div class="content">
+                      <ul>
+                        {% for p_post in popular_posts %}
+                        <li>
+                          <img src="{{media_url}}{{p_post.image}}" class="img-fluid" alt="">
+                          <a href="{% url 'post' p_post.id %}" class="text-decoration-none text-white">
+                            <h5>{{p_post.postname}}</h5>
+                            <span>{{p_post.time}}</span>
+                          </a>
+                        </li>
                         {% endfor %}
                       </ul>
                     </div>

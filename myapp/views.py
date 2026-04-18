@@ -167,13 +167,18 @@ def increaselikes(request, id):
 # 📄 SINGLE POST
 def post(request, id):
     post_obj = Post.objects.get(id=id)
-
     comments = Comment.objects.filter(post_id=id)
+    
+    # Random Recommendations
+    related_posts = Post.objects.filter(category=post_obj.category).exclude(id=id).order_by('?')[:4]
+    popular_posts = Post.objects.all().exclude(id=id).order_by('?')[:4]
 
     return render(request, "post-details.html", {
         "user": request.user,
         'post': post_obj,
-        'recent_posts': Post.objects.all().order_by("-id"),
+        'related_posts': related_posts,
+        'popular_posts': popular_posts,
+        'recent_posts': Post.objects.all().order_by("-id")[:5],
         'media_url': settings.MEDIA_URL,
         'comments': comments,
         'total_comments': comments.count()
