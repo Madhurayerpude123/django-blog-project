@@ -44,6 +44,12 @@
           aria-label="Slide 3"></button>
         <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3"
           aria-label="Slide 4"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4"
+          aria-label="Slide 5"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="5"
+          aria-label="Slide 6"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="6"
+          aria-label="Slide 7"></button>
       </div>
       <div class="carousel-inner">
         <div class="carousel-item active">
@@ -68,6 +74,24 @@
           <img src="{% static 'assets/images/bio.png' %}" class="d-block w-100" style="height: 500px; object-fit: cover;" alt="Biotechnology">
           <div class="carousel-caption d-none d-md-block">
             <h5 class="text-white" style="font-weight: bold; font-size: 2rem; text-shadow: 2px 2px 4px #000;">Biotechnology</h5>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="{% static 'assets/images/block.png' %}" class="d-block w-100" style="height: 500px; object-fit: cover;" alt="Blockchain">
+          <div class="carousel-caption d-none d-md-block">
+            <h5 class="text-white" style="font-weight: bold; font-size: 2rem; text-shadow: 2px 2px 4px #000;">Blockchain</h5>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="{% static 'assets/images/test.png' %}" class="d-block w-100" style="height: 500px; object-fit: cover;" alt="Software Testing">
+          <div class="carousel-caption d-none d-md-block">
+            <h5 class="text-white" style="font-weight: bold; font-size: 2rem; text-shadow: 2px 2px 4px #000;">Software Testing</h5>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="{% static 'assets/images/tele.png' %}" class="d-block w-100" style="height: 500px; object-fit: cover;" alt="Telecommunication">
+          <div class="carousel-caption d-none d-md-block">
+            <h5 class="text-white" style="font-weight: bold; font-size: 2rem; text-shadow: 2px 2px 4px #000;">Telecommunication</h5>
           </div>
         </div>
       </div>
@@ -98,11 +122,12 @@
             <span class="text-white bg-info text-center rounded-3 mt-5" style="padding: 8px;">{{post.category}}</span>
             <h5 class="mt-4 text-white">{{post.postname}}</h5>
           </a>
-          <form method="post" action="{% url 'increaselikes' post.id %}">
+          <form class="like-form" method="post" action="{% url 'increaselikes' post.id %}">
             {% csrf_token %}
             <button class="float-right small" type="submit"
-              style="border: none; background: transparent; font-size: 25px;"><i
-                class="fa fa-heart text-danger"></i></button>
+              style="border: none; background: transparent; font-size: 20px; color: #f26522;">
+              <span class="like-count">{{post.likes}}</span> <i class="fa fa-heart"></i>
+            </button>
           </form>
 
           <p>{{post.content|slice:"0:100"}}...</p>
@@ -133,10 +158,10 @@
                   </div>
                   <div class="down-content">
                     <span>{{post.category}}</span>
-                    <form method="post" action="{% url 'increaselikes' post.id %}">
+                    <form class="like-form" method="post" action="{% url 'increaselikes' post.id %}">
                       {% csrf_token %}
                       <button class="float-right btn btn-outline-danger" type="submit ">
-                        {{post.likes}} <i class="fa fa-heart"></i></button>
+                        <span class="like-count">{{post.likes}}</span> <i class="fa fa-heart"></i></button>
                     </form>
                     <a href="{% url 'post' post.id %}" class="text-decoration-none text-white">
                       <h5 class="text-white">{{post.postname}}</h5>

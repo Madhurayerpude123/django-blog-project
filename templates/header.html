@@ -199,3 +199,45 @@
   </div>
 </div>
 <!-- Banner Ends Here -->
+
+<!-- AJAX Like Handler -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.body.addEventListener('submit', function(e) {
+    if (e.target && e.target.classList.contains('like-form')) {
+      e.preventDefault();
+      const form = e.target;
+      const url = form.action;
+      const formData = new FormData(form);
+      
+      fetch(url, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        const button = form.querySelector('button');
+        const countSpan = button.querySelector('.like-count');
+        const icon = button.querySelector('i');
+        
+        // Update the count specifically
+        if (countSpan) {
+            countSpan.textContent = data.likes;
+        }
+        
+        // Visual feedback
+        icon.style.transition = 'transform 0.2s ease';
+        icon.style.transform = 'scale(1.8)';
+        setTimeout(() => {
+          icon.style.transform = 'scale(1)';
+        }, 200);
+      })
+      .catch(error => console.error('Error:', error));
+    }
+  });
+});
+</script>
