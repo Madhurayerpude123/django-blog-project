@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from django.contrib.auth.models import User, auth
 from django.contrib.auth import authenticate
 from django.contrib import messages
@@ -158,6 +159,7 @@ def increaselikes(request, id):
         post = Post.objects.get(id=id)
         post.likes += 1
         post.save()
+        return JsonResponse({'likes': post.likes, 'id': post.id})
 
     return redirect("index")
 
