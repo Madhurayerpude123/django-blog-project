@@ -1,177 +1,293 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <link
-    href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap"
-    rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-
-  <!-- Bootstrap core CSS -->
-  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-
-  <!-- Additional CSS Files -->
-  <link rel="stylesheet" href="{% static 'assets/css/fontawesome.css' %}">
+  <title>Contact Us | TECHSpot</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'assets/css/fontawesome.css' %}">
   <link rel="stylesheet" href="{% static 'assets/css/templatemo-stand-blog.css' %}">
   <link rel="stylesheet" href="{% static 'assets/css/owl.css' %}">
   <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
 
-  <title>Contact</title>
+  <style>
+    body { background-color: #061121; color: #e2e8f0; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+    
+    /* Animations */
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideRight {
+      from { opacity: 0; transform: translateX(-50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes slideLeft {
+      from { opacity: 0; transform: translateX(50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
+    /* Page Header */
+    .heading-page {
+      background: linear-gradient(rgba(6, 17, 33, 0.8), rgba(6, 17, 33, 0.95)), url("{% static 'assets/images/heading-bg.jpg' %}") center/cover;
+      padding: 120px 0 60px;
+      border-bottom: 2px solid #f26522;
+      animation: slideDown 1s ease-out;
+      text-align: center;
+    }
+    .heading-page h4 { color: #f26522; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 15px; font-size: 1.2rem;}
+    .heading-page h2 { color: #ffffff; font-weight: 900; font-size: 3rem; text-transform: uppercase; text-shadow: 0 4px 15px rgba(242,101,34,0.3); }
 
+    /* Glassmorphism Cards */
+    .glass-card {
+      background: rgba(10, 25, 47, 0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(242,101,34,0.2);
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+      transition: transform 0.4s ease, border-color 0.4s ease;
+    }
+    .glass-card:hover { border-color: rgba(242,101,34,0.5); transform: translateY(-5px); }
+
+    .form-container { animation: slideRight 1s ease-out 0.2s both; }
+    .info-container { animation: slideLeft 1s ease-out 0.4s both; }
+    .map-container { animation: fadeUp 1s ease-out 0.6s both; }
+
+    /* Advanced Form UI (Floating Labels) */
+    .form-floating { position: relative; margin-bottom: 25px; }
+    .form-floating input, .form-floating textarea {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      color: #fff;
+      padding: 15px;
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+    .form-floating input:focus, .form-floating textarea:focus {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: #f26522;
+      box-shadow: 0 0 0 4px rgba(242,101,34,0.15);
+    }
+    .form-floating label {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      color: #94a3b8;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+    
+    /* Float logic */
+    .form-floating input:focus ~ label,
+    .form-floating input:not(:placeholder-shown) ~ label,
+    .form-floating textarea:focus ~ label,
+    .form-floating textarea:not(:placeholder-shown) ~ label {
+      top: -12px;
+      left: 10px;
+      font-size: 0.85rem;
+      color: #f26522;
+      background: #0A192F;
+      padding: 0 5px;
+      border-radius: 4px;
+    }
+
+    /* Modern Button */
+    .btn-custom {
+      background: linear-gradient(135deg, #f26522, #e55314);
+      color: #fff;
+      border: none;
+      padding: 14px 30px;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(242,101,34,0.4);
+      transition: all 0.3s ease;
+      width: 100%;
+      text-transform: uppercase;
+    }
+    .btn-custom:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 8px 25px rgba(242,101,34,0.6);
+      background: linear-gradient(135deg, #ff7a3a, #f26522);
+    }
+
+    /* Contact Info UI */
+    .contact-info-list { list-style: none; padding: 0; margin: 0; }
+    .contact-info-list li {
+      display: flex;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: all 0.3s ease;
+    }
+    .contact-info-list li:hover { transform: translateX(10px); }
+    .contact-info-list li:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    
+    .icon-box {
+      width: 50px; height: 50px;
+      background: rgba(242,101,34,0.1);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      color: #f26522; font-size: 1.5rem; margin-right: 20px;
+      box-shadow: 0 4px 15px rgba(242,101,34,0.2);
+    }
+    .info-text h5 { color: #fff; font-size: 1.1rem; font-weight: 600; margin: 0 0 5px 0; }
+    .info-text span { color: #f26522; font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+
+    /* Map Styling */
+    .map-container {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(242,101,34,0.2);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+      margin-top: 50px;
+      position: relative;
+    }
+    .map-container iframe {
+      filter: invert(90%) hue-rotate(180deg) contrast(100%); /* Dark mode map filter */
+      transition: filter 0.5s ease;
+    }
+    .map-container:hover iframe {
+      filter: invert(80%) hue-rotate(180deg) contrast(110%);
+    }
+
+  </style>
 </head>
 
-<body style="background-color: #061121; color: #e2e8f0;">
+<body>
 
- 
+  {% include 'header.html' %}
 
-
-  <!-- Header -->
-  {%include 'header.html'%}
-
-  <!-- Page Content -->
-  <!-- Banner Starts Here -->
-  <div class="heading-page header-text">
-    <section class="page-heading">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="text-content">
-              <h4 style="color: #f26522;">contact us</h4>
-              <h2 style="color: #f26522;">let's stay in touch!</h2>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+  <!-- Page Header -->
+  <div class="heading-page">
+    <div class="container">
+      <h4>Contact Us</h4>
+      <h2>Let's Stay In Touch!</h2>
+    </div>
   </div>
 
-  <!-- Banner Ends Here -->
-
   {% if message %}
-  <script>
-      alert('{{message}}');
-  </script>
+  <div class="container mt-4">
+    <div class="alert alert-success alert-dismissible fade show" role="alert" style="background: rgba(242,101,34,0.2); color: #fff; border: 1px solid #f26522;">
+      {{ message }}
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  </div>
   {% endif %}
 
-
-  <section class="contact-us">
+  <section class="contact-us" style="padding: 80px 0;">
     <div class="container">
-      <div class="row">
-
-        <div class="col-lg-12">
-          <div class="down-contact">
-            <div class="row">
-              <div class="col-lg-8">
-                <div class="sidebar-item contact-form">
-                  <div class="sidebar-heading">
-                    <h2 class="h2" style="color: #f26522;">Send us a message</h2>
-                  </div>
-                  <div class="content">
-                    <form id="contact" method="post" action="{% url 'contact' %}">
-                      {% csrf_token %}
-                      <div class="row">
-                        <div class="col-md-6 col-sm-12">
-                          <fieldset>
-                            <input name="name" type="text" id="name" placeholder="Name" required>
-                          </fieldset>
-                        </div>
-                        <div class="col-md-6 col-sm-12">
-                          <fieldset>
-                            <input name="email" type="email" id="email" placeholder="Email" required>
-                          </fieldset>
-                        </div>
-                        <div class="col-md-12 col-sm-12">
-                          <fieldset>
-                            <input name="subject" type="text" id="subject" placeholder="Subject">
-                          </fieldset>
-                        </div>
-                        <div class="col-lg-12">
-                          <fieldset>
-                            <textarea name="message" rows="6" id="message" placeholder="Message"
-                              required=""></textarea>
-                          </fieldset>
-                        </div>
-                        <div class="col-lg-12">
-                          <fieldset>
-                            <center>
-                              <button type="submit" id="form-submit" class="main-button">Send Message</button>
-                            </center>
-                          </fieldset>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-
-                  {% for message in messages %}
-                  <p class="text-danger">{{message}}</p>
-                  {% endfor %}
-
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="sidebar-item contact-information">
-                  <div class="sidebar-heading">
-                    <h2 style="color: #f26522;">contact information</h2>
-                  </div>
-                  <div class="content">
-                    <ul>
-                      <li>
-                        <h5 style="font-weight:400; color: #f26522;">+91 8976567898</h5>
-                        <span style="color: #ff8c42;">PHONE NUMBER</span>
-                      </li>
-                      <li>
-                        <h5 style="font-weight:400; color: #f26522;">blogspot@gmail.com</h5>
-                        <span style="color: #ff8c42;">EMAIL ADDRESS</span>
-                      </li>
-                      <li>
-                        <h5 style="font-weight:400; color: #f26522;">123 Rajaji Nagar,
-                          <br>Bangalore, Karnataka 560032
-                        </h5>
-                        <span style="color: #ff8c42;">STREET ADDRESS</span>
-                      </li>
-                    </ul>
+      <div class="row g-5">
+        
+        <!-- Form Section -->
+        <div class="col-lg-7 form-container">
+          <div class="glass-card">
+            <h3 style="color: #fff; font-weight: 800; margin-bottom: 30px; font-size: 2rem;">Send Us a Message <i class="fa fa-paper-plane" style="color: #f26522; font-size: 1.5rem; margin-left: 10px;"></i></h3>
+            
+            <form id="contact" method="post" action="{% url 'contact' %}">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input name="name" type="text" id="name" placeholder=" " required>
+                    <label for="name">Your Name</label>
                   </div>
                 </div>
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input name="email" type="email" id="email" placeholder=" " required>
+                    <label for="email">Email Address</label>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating">
+                    <input name="subject" type="text" id="subject" placeholder=" " required>
+                    <label for="subject">Subject</label>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating">
+                    <textarea name="message" id="message" rows="6" style="height: 150px;" placeholder=" " required></textarea>
+                    <label for="message">Your Message</label>
+                  </div>
+                </div>
+                <div class="col-12 mt-3">
+                  <button type="submit" id="form-submit" class="btn-custom">Send Message</button>
+                </div>
               </div>
-            </div>
+            </form>
+
+            {% for msg in messages %}
+              <p class="text-danger mt-3">{{msg}}</p>
+            {% endfor %}
+
           </div>
         </div>
 
-        <div class="col-lg-12">
-          <div id="map">
-            <iframe
-              src="https://maps.google.com/maps?q=Av.+L%C3%BAcio+Costa,+Rio+de+Janeiro+-+RJ,+Brazil&t=&z=13&ie=UTF8&iwloc=&output=embed"
-              width="100%" height="450px" frameborder="0" style="border:0" allowfullscreen></iframe>
+        <!-- Contact Info Section -->
+        <div class="col-lg-5 info-container">
+          <div class="glass-card h-100 d-flex flex-column justify-content-center">
+            <h3 style="color: #fff; font-weight: 800; margin-bottom: 40px; font-size: 2rem;">Contact Info</h3>
+            
+            <ul class="contact-info-list">
+              <li>
+                <div class="icon-box"><i class="fa fa-phone"></i></div>
+                <div class="info-text">
+                  <span>Phone Number</span>
+                  <h5>+91 8976567898</h5>
+                </div>
+              </li>
+              <li>
+                <div class="icon-box"><i class="fa fa-envelope"></i></div>
+                <div class="info-text">
+                  <span>Email Address</span>
+                  <h5>blogspot@gmail.com</h5>
+                </div>
+              </li>
+              <li>
+                <div class="icon-box"><i class="fa fa-map-marker-alt"></i></div>
+                <div class="info-text">
+                  <span>Street Address</span>
+                  <h5>123 Rajaji Nagar,<br>Bangalore, Karnataka 560032</h5>
+                </div>
+              </li>
+            </ul>
           </div>
+        </div>
+
+        <!-- Map Section -->
+        <div class="col-12 map-container mb-5">
+          <iframe src="https://maps.google.com/maps?q=Av.+L%C3%BAcio+Costa,+Rio+de+Janeiro+-+RJ,+Brazil&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="500px" frameborder="0" style="border:0;" allowfullscreen></iframe>
         </div>
 
       </div>
     </div>
   </section>
 
-
-  {%include 'footer.html'%}
+  {% include 'footer.html' %}
 
   <!-- Bootstrap core JavaScript -->
   <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
-  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
-    integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
-    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
   <!-- Additional Scripts -->
   <script src="{% static 'assets/js/custom.js' %}"></script>
@@ -180,19 +296,5 @@
   <script src="{% static 'assets/js/isotope.js' %}"></script>
   <script src="{% static 'assets/js/accordions.js' %}"></script>
 
-
-  <script language="text/Javascript">
-    cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
-    function clearField(t) {                   //declaring the array outside of the
-      if (!cleared[t.id]) {                      // function makes it static and global
-        cleared[t.id] = 1;  // you could use true and false, but that's more typing
-        t.value = '';         // with more chance of typos
-        t.style.color = '#fff';
-      }
-    }
-
-  </script>
-
 </body>
-
 </html>

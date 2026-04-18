@@ -47,23 +47,27 @@
       </div>
       <div class="carousel-inner">
         <div class="carousel-item active">
-          <img src="{% static 'assets/images/img1.jpg' %}" alt="image1">
+          <img src="{% static 'assets/images/ai.jpg' %}" class="d-block w-100" style="height: 500px; object-fit: cover;" alt="Artificial Intelligence">
           <div class="carousel-caption d-none d-md-block">
+            <h5 class="text-white" style="font-weight: bold; font-size: 2rem; text-shadow: 2px 2px 4px #000;">Artificial Intelligence</h5>
           </div>
         </div>
         <div class="carousel-item">
-          <img src="{% static 'assets/images/img2.jpg' %}" alt="image2">
+          <img src="{% static 'assets/images/iot.png' %}" class="d-block w-100" style="height: 500px; object-fit: cover;" alt="Internet of Things">
           <div class="carousel-caption d-none d-md-block">
+            <h5 class="text-white" style="font-weight: bold; font-size: 2rem; text-shadow: 2px 2px 4px #000;">Internet of Things</h5>
           </div>
         </div>
         <div class="carousel-item">
-          <img src="{% static 'assets/images/img3.jpg' %}" alt="image3">
+          <img src="{% static 'assets/images/quantum.png' %}" class="d-block w-100" style="height: 500px; object-fit: cover;" alt="Quantum Computing">
           <div class="carousel-caption d-none d-md-block">
+            <h5 class="text-white" style="font-weight: bold; font-size: 2rem; text-shadow: 2px 2px 4px #000;">Quantum Computing</h5>
           </div>
         </div>
         <div class="carousel-item">
-          <img src="{% static 'assets/images/img4.jpg' %}" alt="image4">
+          <img src="{% static 'assets/images/bio.png' %}" class="d-block w-100" style="height: 500px; object-fit: cover;" alt="Biotechnology">
           <div class="carousel-caption d-none d-md-block">
+            <h5 class="text-white" style="font-weight: bold; font-size: 2rem; text-shadow: 2px 2px 4px #000;">Biotechnology</h5>
           </div>
         </div>
       </div>
@@ -90,9 +94,9 @@
       <div class="col col-lg-4 col-md-6 col-12 mb-2 blog-post">
         <img src="{{media_url}}{{post.image}}" alt="" width="100%" height="300px">
         <div class=" px-3 py-5 shadow">
-          <a href="{% url 'post' post.id %}" class="text-decoration-none text-dark">
+          <a href="{% url 'post' post.id %}" class="text-decoration-none text-white">
             <span class="text-white bg-info text-center rounded-3 mt-5" style="padding: 8px;">{{post.category}}</span>
-            <h5 class="mt-4">{{post.postname}}</h5>
+            <h5 class="mt-4 text-white">{{post.postname}}</h5>
           </a>
           <form method="post" action="{% url 'increaselikes' post.id %}">
             {% csrf_token %}
@@ -134,8 +138,8 @@
                       <button class="float-right btn btn-outline-danger" type="submit ">
                         {{post.likes}} <i class="fa fa-heart"></i></button>
                     </form>
-                    <a href="{% url 'post' post.id %}" class="text-decoration-none text-dark">
-                      <h5>{{post.postname}}</h5>
+                    <a href="{% url 'post' post.id %}" class="text-decoration-none text-white">
+                      <h5 class="text-white">{{post.postname}}</h5>
                     </a>
                     <ul class="post-info">
                       <li><a href="#">{{post.user}}</a></li>

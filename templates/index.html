@@ -42,12 +42,23 @@
   .carousel-img {
     height: 700px;
     object-fit: cover;
-    filter: brightness(0.55);
+    filter: brightness(0.7);
     transition: transform 6s ease, filter 0.8s ease;
   }
 
+  .carousel-item::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(6,17,33,0.3) 0%, rgba(6,17,33,0.8) 100%);
+    z-index: 1;
+  }
+
   .carousel-item.active .carousel-img {
-    transform: scale(1.06); /* Ken Burns zoom */
+    transform: scale(1.03); /* Subtler zoom to keep title clear */
   }
 
   .carousel-item {
@@ -59,6 +70,7 @@
     bottom: 50%;
     transform: translateY(50%);
     text-align: center;
+    z-index: 2;
   }
 
   .carousel-caption h1 {
@@ -190,7 +202,7 @@
   <div class="container mt-5">
     <h5 style="color: #ffffff; font-weight: bold; font-size: 28px;">MY POSTS</h5>
     <hr>
-    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-1" class="blog-posts">
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-1 g-4">
 
       {% for post in posts|slice:"0:6" %}
       <div class="col col-lg-4 col-md-6 col-12 mb-2 blog-post" data-aos="fade-up" data-aos-duration="1000">
@@ -198,7 +210,7 @@
         <div class=" px-3 py-5 shadow" style="background-color: #0A192F; border-radius: 10px;">
         <a href="{% url 'post' post.id %}" class="text-decoration-none" style="color: #ffffff;">
           <span class="text-white text-center rounded-3 mt-5" style="padding: 8px; background-color: #f26522;">{{post.category}}</span>
-          <h5 class="mt-4">{{post.postname}}</h5>
+          <h5 class="mt-4 text-white">{{post.postname}}</h5>
         </a>
         <form method="post" action="{% url 'increaselikes' post.id %}">
           {% csrf_token %}
@@ -222,19 +234,19 @@
     <div class="container">
       <h3 class="mb-2" style="color: #ffffff; font-size: 30px; font-weight: bold;">RECENT POSTS</h3>
       <hr>
-      <div class=" row">
+      <div class="row g-5">
         <div class="col-lg-8">
           <div class="all-blog-posts">
             <div class="row">
 
-              {% for post in top_posts|slice:"0:10" %}
+              {% for post in top_posts|slice:"0:20" %}
               <div class="col col-lg-6 col-12 pb-2 blog-post" data-aos="fade-up" data-aos-duration="1000">
                 <img src="{{media_url}}{{post.image}}" alt="" class="img-fluid" width="100%">
                 <div class="px-3 py-5 shadow" style="background-color: #0A192F; border-radius: 10px;">
                   <a href="{% url 'post' post.id %}" class="text-decoration-none mb-3" style="color: #ffffff;">
                     <span class="text-white text-center rounded-3 mt-5"
                       style="padding: 8px; background-color: #f26522;">{{post.category}}</span>
-                    <h5 class="mt-4">{{post.postname}}</h5>
+                    <h5 class="mt-4 text-white">{{post.postname}}</h5>
                   </a>
                   <form method="post" action="{% url 'increaselikes' post.id %}">
                     {% csrf_token %}

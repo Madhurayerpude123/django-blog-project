@@ -398,7 +398,11 @@
         <!-- Avatar -->
         <div class="col-auto" data-aos="fade-right" data-aos-duration="800">
           <div class="profile-avatar-wrapper">
-            <img src="{% static 'assets/images/user.png' %}" alt="Profile Picture" class="profile-avatar">
+            {% if profile_pic %}
+              <img src="{{ media_url }}{{ profile_pic }}" alt="Profile Picture" class="profile-avatar">
+            {% else %}
+              <img src="{% static 'assets/images/user.png' %}" alt="Profile Picture" class="profile-avatar">
+            {% endif %}
             <div class="online-badge"></div>
           </div>
         </div>

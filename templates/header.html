@@ -20,7 +20,7 @@
   }
 
   .navbar-brand h2 {
-    color: #ffffff;
+    color: #ffffff !important;
     font-weight: 800;
     font-size: 1.6rem;
     margin: 0;
@@ -107,14 +107,32 @@
       transform: none;
     }
   }
+
+  /* ===== LOGO ANIMATION ===== */
+  .logo-animate h2 {
+    display: inline-block;
+    transition: transform 0.4s ease, text-shadow 0.4s ease;
+  }
+  .logo-animate:hover h2 {
+    transform: scale(1.08) rotate(-2deg);
+    text-shadow: 0px 4px 15px rgba(242,101,34,0.6);
+  }
+  .logo-animate h2 span {
+    display: inline-block;
+    transition: transform 0.4s ease, color 0.4s ease;
+  }
+  .logo-animate:hover h2 span {
+    transform: translateY(-3px);
+    color: #ff8c42;
+  }
 </style>
 
 <!-- Header -->
 <header>
   <nav class="navbar navbar-expand-lg main-navbar">
     <div class="container">
-      <a class="navbar-brand" href="{% url 'index' %}">
-        <h2>Blog<span>Spot</span></h2>
+      <a class="navbar-brand logo-animate" href="{% url 'index' %}">
+        <h2>TECH<span>Spot</span></h2>
       </a>
 
       <!-- Custom Toggle Button to ensure it works without external JS dependencies -->
@@ -135,6 +153,11 @@
           </li>
 
           {% if user.is_authenticated %}
+          {% if user.is_superuser %}
+          <li class="nav-item">
+            <a class="nav-link" style="color: #ffc107 !important;" href="{% url 'dashboard' %}"><i class="fa fa-shield-alt"></i> Dashboard</a>
+          </li>
+          {% endif %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'create' %}">Create</a>
           </li>
