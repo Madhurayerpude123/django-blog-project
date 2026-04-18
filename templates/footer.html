@@ -1,76 +1,153 @@
 
 <style>
-  h4 {
-    text-align: left;
-    color: #dfdada;
-    letter-spacing: 1px;
-    margin-bottom: 20px;
-    font-size: 20px;
+  .footer-title {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.2rem;
+    letter-spacing: 0.5px;
+    margin-bottom: 25px;
+    position: relative;
+    padding-bottom: 10px;
   }
 
-  li {
+  .footer-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 40px;
+    height: 2px;
+    background-color: #f26522;
+  }
+
+  .footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-links li {
+    margin-bottom: 12px;
+    transition: all 0.3s ease;
+  }
+
+  .footer-links li a {
+    color: #94a3b8;
     text-decoration: none;
-    text-align: left;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
   }
 
-  li a {
-    color: rgb(153, 147, 147);
-  }
-
-  li a:hover {
+  .footer-links li a i {
+    font-size: 12px;
+    margin-right: 10px;
     color: #f26522;
   }
 
-  @media screen and (max-width:600px) {
+  .footer-links li a:hover {
+    color: #f26522;
+    transform: translateX(5px);
+  }
 
-    h4,
-    li {
+  .social-links li a {
+    font-size: 15px;
+  }
+
+  @media screen and (max-width: 991px) {
+    .footer-title {
+      margin-top: 30px;
+      text-align: center;
+    }
+    .footer-title::after {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .footer-links li a {
+      justify-content: center;
+    }
+    .footer-section-about {
       text-align: center;
     }
   }
 </style>
 
-<footer style="background-color: #0A192F; padding-top: 40px; padding-bottom: 20px;">
+<footer style="background-color: #0A192F; padding: 70px 0 30px; border-top: 1px solid rgba(242,101,34,0.15);">
   <div class="container">
-    <div class="row">
-      <div class="col-lg-3 col-md-6 col-sm-12">
-        <h4 class="text-light">SERVICE</h4>
-        <ul>
-          <li><a href="#">Shipping & Returns</a></li>
-          <li><a href="#">Size Guide</a></li>
+    <div class="row g-4">
+      <!-- About Section -->
+      <div class="col-lg-4 col-md-6 footer-section-about">
+        <h4 class="footer-title" style="padding-bottom: 0; margin-bottom: 20px; border: none;">
+          <span style="color: #f26522; font-weight: 800;">TECH</span><span style="color: #fff; font-weight: 800;">Spot</span>
+        </h4>
+        <p style="color: #94a3b8; font-size: 14px; line-height: 1.8; margin-bottom: 25px;">
+          The ultimate platform for college tech enthusiasts. We bring you the latest in Artificial Intelligence, Software Development, and Campus Innovation. 
+        </p>
+        <div class="social-links-wrapper">
+          <a href="#" class="me-3" style="color: #f26522; font-size: 1.2rem;"><i class="fab fa-facebook"></i></a>
+          <a href="#" class="me-3" style="color: #f26522; font-size: 1.2rem;"><i class="fab fa-twitter"></i></a>
+          <a href="https://www.linkedin.com/in/keerti-vishwkarma-8ba754243/" class="me-3" style="color: #f26522; font-size: 1.2rem;"><i class="fab fa-linkedin"></i></a>
+          <a href="#" style="color: #f26522; font-size: 1.2rem;"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+
+      <!-- Quick Links Section -->
+      <div class="col-lg-2 col-md-6">
+        <h4 class="footer-title">Navigation</h4>
+        <ul class="footer-links">
+          <li><a href="{% url 'index' %}"><i class="fas fa-chevron-right"></i> Home</a></li>
+          <li><a href="{% url 'blog' %}"><i class="fas fa-chevron-right"></i> All Blogs</a></li>
+          <li><a href="{% url 'contact' %}"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+          {% if user.is_authenticated %}
+          <li><a href="{% url 'create' %}"><i class="fas fa-chevron-right"></i> Create Post</a></li>
+          {% endif %}
         </ul>
       </div>
-      <div class="col-lg-3 col-md-6 col-sm-12">
-        <h4 class="text-light">ACCOUNT</h4>
-        <ul>
-          <li><a href="{% url 'signin' %}">Login</a></li>
-          <li><a href="{% url 'signup' %}">Signup</a></li>
+
+      <!-- Account Section -->
+      <div class="col-lg-3 col-md-6">
+        <h4 class="footer-title">My Account</h4>
+        <ul class="footer-links">
+          {% if user.is_authenticated %}
+          <li><a href="{% url 'profile' user.id %}"><i class="fas fa-user-circle"></i> My Profile</a></li>
+          <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+          {% if user.is_superuser %}
+          <li><a href="{% url 'dashboard' %}" style="color: #ffc107;"><i class="fas fa-shield-alt"></i> Admin Dashboard</a></li>
+          {% endif %}
+          {% else %}
+          <li><a href="{% url 'signin' %}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+          <li><a href="{% url 'signup' %}"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+          {% endif %}
         </ul>
       </div>
-      <div class="col-lg-3 col-md-6 col-sm-12">
-        <h4 class="text-light">INFORMATION</h4>
-        <ul>
-          <li><a href="{% url 'blog' %}">Our Story</a></li>
-          <li><a href="#">Find a stocklist</a></li>
-        </ul>
-      </div>
-      <div class="col-lg-3 col-md-6 col-sm-12">
-        <h4 class="text-light">CONNECT</h4>
-        <ul>
-          <li><a href="https://www.linkedin.com/in/keerti-vishwkarma-8ba754243/">Facebook</a></li>
-          <li><a href="https://www.linkedin.com/in/keerti-vishwkarma-8ba754243/">Instagram</a></li>
+
+      <!-- Support Section -->
+      <div class="col-lg-3 col-md-6">
+        <h4 class="footer-title">Get Support</h4>
+        <ul class="footer-links">
+          <li><a href="#"><i class="fas fa-question-circle"></i> Help Center</a></li>
+          <li><a href="#"><i class="fas fa-file-contract"></i> Privacy Policy</a></li>
+          <li><a href="#"><i class="fas fa-shield-alt"></i> Terms of Service</a></li>
+          <li><a href="mailto:support@techspot.com"><i class="fas fa-envelope"></i> support@techspot.com</a></li>
         </ul>
       </div>
 
     </div>
   </div>
 
+  <!-- Copyright -->
   <div class="container mt-5">
     <div class="row">
       <div class="col-lg-12">
-        <div class="p-3 text-center">
-          <p style="color: #ffffff;">Developed with 💖 by <a href="https://www.linkedin.com/in/keerti-vishwkarma-8ba754243/" style="color: #f26522; text-decoration: none;">Keerti</a> <br>
-            &copy; Copyright 2023 | All Rights Reserved</p>
+        <div class="pt-4 text-center" style="border-top: 1px solid rgba(255,255,255,0.05);">
+          <p style="color: #64748b; font-size: 13px; margin: 0;">
+            Developed with <i class="fas fa-heart" style="color: #f26522;"></i> by 
+            <a href="https://www.linkedin.com/in/keerti-vishwkarma-8ba754243/" style="color: #f26522; text-decoration: none; font-weight: 600;">Keerti</a>
+          </p>
+          <p style="color: #64748b; font-size: 12px; margin-top: 5px;">
+            &copy; 2026 TECHSpot Blogging Platform. All Rights Reserved.
+          </p>
         </div>
       </div>
     </div>

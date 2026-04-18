@@ -36,7 +36,7 @@ https://templatemo.com/tm-551-stand-blog
 
     <section class="blog-posts grid-system">
       <div class="container">
-        <div class="row">
+        <div class="row g-4">
           <div class="col-lg-8">
             <div class="all-blog-posts">
               <div class="row">
@@ -47,13 +47,13 @@ https://templatemo.com/tm-551-stand-blog
                     </div>
                     <div class="down-content">
                       <span>{{post.category}}</span>
-                      <a><h4>{{post.postname}}</h4></a>
+                      <a><h4 class="text-white">{{post.postname}}</h4></a>
                       <ul class="post-info">
                         <li><a href="#">{{post.user}}</a></li>
                         <li><a href="#">{{post.time}}</a></li>
                         <li><a href="#">10 Comments</a></li>
                       </ul>
-                      <p>{{post.content}}</p>
+                      <p class="text-white">{{post.content}}</p>
                       <div class="post-options">
                       </div>
                     </div>
@@ -62,14 +62,14 @@ https://templatemo.com/tm-551-stand-blog
                 <div class="col-lg-12">
                   <div class="sidebar-item comments">
                     <div class="sidebar-heading">
-                      <h2 class="text-dark-emphasis">{{total_comments}} comments</h2>
+                      <h2 class="text-white">{{total_comments}} comments</h2>
                     </div>
                     <div class="content">
                       <ul>
                         {% for comment in comments %}
                         <li style="display: block;">
                           <div class="ps-3">
-                            <h5>{{comment.user}}<span class="small text-black-50 px-5 text-danger">{{comment.time}}</span>
+                            <h5 class="text-white">{{comment.user}}<span class="small text-white-50 px-5">{{comment.time}}</span>
                               {% if post.user == user or comment.user == post.user%}
                               <a href="{% url 'deletecomment' comment.id %}" class="small text-danger float-right fw-bold pt-1">Delete</a>
                               {% endif %}
@@ -86,7 +86,7 @@ https://templatemo.com/tm-551-stand-blog
                 <div class="col-lg-12">
                   <div class="sidebar-item submit-comment">
                     <div class="sidebar-heading">
-                      <h2>Your comment</h2>
+                      <h2 class="text-white">Your comment</h2>
                     </div>
                     <div class="content">
                       <form id="comment" action="{% url 'savecomment' post.id %}" method="post">
@@ -117,7 +117,7 @@ https://templatemo.com/tm-551-stand-blog
                 <div class="col-lg-12">
                   <div class="sidebar-item recent-posts">
                     <div class="sidebar-heading">
-                      <h2>Recent Posts</h2>
+                      <h2 class="text-white">Recent Posts</h2>
                     </div>
                     <div class="content">
                       <ul>
@@ -125,7 +125,7 @@ https://templatemo.com/tm-551-stand-blog
                         <li>
                           <img src="{{media_url}}{{post.image}}" class="img-fluid" alt="">
                           <a href="post-details.html">
-                            <a href="{% url 'post' post.id %}" class="text-decoration-none text-dark"><h5>{{post.postname}}</h5></a>
+                            <a href="{% url 'post' post.id %}" class="text-decoration-none text-white"><h5>{{post.postname}}</h5></a>
                           <span>{{post.time}}</span>
                         </a></li>
                         {% endfor %}

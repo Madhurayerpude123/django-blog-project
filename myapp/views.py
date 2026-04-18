@@ -2,9 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib.auth import authenticate
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.conf import settings
-from .models import Post, Comment, Contact
+from .models import Post, Comment, Contact, UserProfile
 
 
 # 🏠 HOME
@@ -114,10 +114,17 @@ def create(request):
 # 👤 PROFILE (🔥 FIXED)
 @login_required
 def profile(request, id):
+    user = User.objects.get(id=id)
+    try:
+        profile_pic = user.userprofile.image
+    except:
+        profile_pic = None
+
     return render(request, 'profile.html', {
-        'user': User.objects.get(id=id),
+        'user': user,
         'posts': Post.objects.filter(user_id=id),  # ✅ FIXED
         'media_url': settings.MEDIA_URL,
+        'profile_pic': profile_pic,
     })
 
 
@@ -131,6 +138,12 @@ def profileedit(request, id):
         user.last_name = request.POST.get('lastname')
         user.email = request.POST.get('email')
         user.save()
+
+        profile_pic = request.FILES.get('profile_pic')
+        if profile_pic:
+            user_profile, created = UserProfile.objects.get_or_create(user=user)
+            user_profile.image = profile_pic
+            user_profile.save()
 
         messages.success(request, "Profile updated!")
         return redirect('profile', id)
@@ -235,3 +248,40 @@ def contact_us(request):
         context['message'] = f"Dear {name}, Thanks for your time!"
 
     return render(request, "contact.html", context)
+
+
+# 🛠️ ADMIN DASHBOARD
+@user_passes_test(lambda u: u.is_superuser)
+def dashboard(request):
+    users = User.objects.all().order_by('-date_joined')
+    posts = Post.objects.all().order_by('-id')
+    comments = Comment.objects.all().order_by('-id')
+    return render(request, "admin_dashboard.html", {
+        "users": users,
+        "posts": posts,
+        "comments": comments,
+        "total_users": users.count(),
+        "total_posts": posts.count(),
+        "total_comments": comments.count()
+    })
+
+@user_passes_test(lambda u: u.is_superuser)
+def admin_delete_user(request, id):
+    if not request.user.id == id:  # Prevent deleting oneself
+        User.objects.filter(id=id).delete()
+        messages.success(request, "User deleted successfully!")
+    else:
+        messages.error(request, "You cannot delete your own admin account.")
+    return redirect("dashboard")
+
+@user_passes_test(lambda u: u.is_superuser)
+def admin_delete_post(request, id):
+    Post.objects.filter(id=id).delete()
+    messages.success(request, "Post deleted successfully!")
+    return redirect("dashboard")
+
+@user_passes_test(lambda u: u.is_superuser)
+def admin_delete_comment(request, id):
+    Comment.objects.filter(id=id).delete()
+    messages.success(request, "Comment deleted successfully!")
+    return redirect("dashboard")

@@ -17,4 +17,10 @@ urlpatterns = [
     path("post/edit/<int:id>",views.editpost,name="editpost"),
     path("post/delete/<int:id>",views.deletepost,name="deletepost"),
     path("contact",views.contact_us,name="contact"),
+    
+    # Admin Routes
+    path("dashboard", views.dashboard, name="dashboard"),
+    path("dashboard/delete/user/<int:id>", views.admin_delete_user, name="admin_delete_user"),
+    path("dashboard/delete/post/<int:id>", views.admin_delete_post, name="admin_delete_post"),
+    path("dashboard/delete/comment/<int:id>", views.admin_delete_comment, name="admin_delete_comment"),
 ]
